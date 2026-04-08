@@ -283,20 +283,21 @@ async function enviar() {
   /* Pergunta do grupo */
   body.append('entry.1478988526', grupo);
 
-  /* Empresa(s) */
+  /* Empresa(s) — sempre envia entry.418878298 (Nome da empresa) */
+  var ne=document.getElementById('nome_empresa');
+  body.append('entry.418878298', ne?ne.value:'');
+
   if (grupo==='Sim') {
+    /* Envia todas as empresas do grupo — incluindo vazias para o Forms registrar */
     var mapa=[['emp1','entry.1727458984'],['emp2','entry.357671171'],['emp3','entry.269836613'],
               ['emp4','entry.1638254328'],['emp5','entry.1231359849'],['emp6','entry.1433901183']];
     for(var i=0;i<mapa.length;i++){
       var el=document.getElementById(mapa[i][0]);
-      if(el&&el.value) body.append(mapa[i][1],el.value);
+      body.append(mapa[i][1], el?el.value:'');
     }
-  } else {
-    var ne=document.getElementById('nome_empresa');
-    body.append('entry.418878298', ne?ne.value:'');
   }
 
-  /* Contatos */
+  /* Contatos — envia todos, inclusive vazios */
   var contatos=[
     ['c1nome','entry.1550483048'],['c1setor','entry.2097345484'],['c1wpp','entry.1766516948'],
     ['c2nome','entry.1222173534'],['c2setor','entry.1912540688'],['c2wpp','entry.1757165463'],
@@ -305,7 +306,7 @@ async function enviar() {
   ];
   for(var i=0;i<contatos.length;i++){
     var el=document.getElementById(contatos[i][0]);
-    if(el&&el.value) body.append(contatos[i][1],el.value);
+    body.append(contatos[i][1], el?el.value:'');
   }
 
   /* Campos obrigatórios do Forms — formulário sem seções usa pageHistory=0 */
